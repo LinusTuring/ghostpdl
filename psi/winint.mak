@@ -34,10 +34,18 @@ MAKENSIS_XE="C:\Program Files\NSIS-3.0\makensis.exe"
 
 !ifdef WIN64
 NSISTARGET=gs$(GS_VERSION)w64
+! if $(MSVC_VERSION) == 17
+VCREDIST=vc_redist.x64.exe
+! else
 VCREDIST=vcredist_x64.exe
+! endif
 !else
 NSISTARGET=gs$(GS_VERSION)w32
+! if $(MSVC_VERSION) == 17
+VCREDIST=vc_redist.x86.exe
+! else
 VCREDIST=vcredist_x86.exe
+! endif
 !endif
 
 # Define the C++ compiler invocation for library modules.
@@ -187,9 +195,9 @@ $(PSOBJ)zwinutf8.$(OBJ) : $(PSSRC)zwinutf8.c $(OP)\
 
 # -------------------- NSIS Installer -------------------------------- #
 nsis: $(PSSRC)nsisinst.nsi $(GSCONSOLE_XE) $(GS_ALL) $(GS_XE) $(GSDLL_DLL) $(BINDIR)\$(GSDLL).lib \
-      "$(VCINSTALLDIR)Redist\MSVC\$(MS_TOOLSET_VERSION)\$(VCREDIST)" \
+      "$(VCToolsRedistDir)$(VCREDIST)" \
       $(WININT_MAK)
-	$(CP_) "$(VCINSTALLDIR)Redist\MSVC\$(MS_TOOLSET_VERSION)\$(VCREDIST)" .
+	$(CP_) "$(VCToolsRedistDir)$(VCREDIST)" .
 	$(MAKENSIS_XE) -NOCD -DVCREDIST=$(VCREDIST) -DTARGET=$(NSISTARGET) -DVERSION=$(GS_DOT_VERSION) -DCOMPILE_INITS=$(COMPILE_INITS) $(PSSRC)nsisinst.nsi
 	-del $(VCREDIST)
 !if defined(KEYFILE) && defined(KEYPWORD) && defined(TIMESTAMP)
