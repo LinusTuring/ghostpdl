@@ -281,6 +281,13 @@ languagelevel 2 .setlanguagelevel
 
 % ---------------- End of predefined configurations ---------------- %
 
+% Set optimizations for converting PostScript to PDF.
+% The ps2pdf* scripts invoke this.
+/.setpdfwrite {		% - .setpdfwrite -
+                % Set a large VM threshold to reduce garbage collection.
+  currentuserparams /VMThreshold get 3000000 .max setvmthreshold
+} bind def
+
 % ---------------- pdfmark and DSC processing ---------------- %
 
 /.write_small_positive_real  % <file> <real> .write_small_positive_real -
