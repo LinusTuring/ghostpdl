@@ -16,7 +16,7 @@
 # so VS2005 shows me a sensible 'Recent Projects' list. Ignore the copy.
 win32/GhostPDLGit.sln
 
-windows/.vs
+.vs
 
 # Ignore all the object files
 bin
